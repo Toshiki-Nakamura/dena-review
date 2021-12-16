@@ -39,12 +39,39 @@ public:
 		string row;
 		for (size_t i = 0; i < WIDTH; i++)
 			row.push_back(_grid[i][x-1]);
-		cout << "row: " << row << endl;
-		cout << "x: " << x << endl;
-		cout << "search: " << search << endl;
 		if (row.find(search) != string::npos) {
 			return true;
 		}
+		
+		/* 斜め↘︎ */
+		string diag;
+		int i = Y, j = x-1;
+		for (j = x-1; j > 0 && i > 0; j--, i--)
+			;
+		// cout << "I:" << i <<  ",J:" << j << endl;
+		for (; i < HEIGHT && j < WIDTH; i++, j++) {
+			diag.push_back(_grid[i][j]);
+		}
+		// cout << diag << endl;
+		if (diag.find(search) != string::npos) {
+			return true;
+		}
+
+		/* 斜め↙︎ */
+		i = Y, j = x-1;
+		diag.clear();
+		for (; j < WIDTH && i > 0; j++, i--)
+			;
+		for (; i < HEIGHT && j > 0; i++, j--) {
+			diag.push_back(_grid[i][j]);
+		}
+		if (i < HEIGHT)
+			diag.push_back(_grid[i][j]);
+		if (diag.find(search) != string::npos) {
+			return true;
+		}
+		// cout << diag;
+		cout << endl;
 		return false;
 	}
 	std::string const &operator[](int index) const {return _grid[index];}
