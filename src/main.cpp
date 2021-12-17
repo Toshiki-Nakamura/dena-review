@@ -5,8 +5,8 @@ using namespace std;
 bool	input(int &x) {
 	string s; getline(cin, s);
 	try {
-		x = stoi(s);}
-	catch(std::exception& e) {
+		x = stoi(s);
+	} catch(std::exception& e) {
 		x = 0;
 	}
 	if ((x >= 1 && x <= 7))
@@ -22,8 +22,8 @@ int		main()
 	Board b;
 
 	cout << b;
-	while (1)
-	{
+	while (cin.eof() != true) {
+		cout << "Please input number (1 ~ 7) " << endl;
 		cout << "Player" << (turn == 1 ? turn : 2) << ": ";
 		if ((ret = input(x))) {
 			if (b.Reflect_Input(x, turn) == false) {
@@ -32,8 +32,7 @@ int		main()
 			}
 		}
 		cout << b;
-		if (b.ValidateBoard(x, turn))
-		{
+		if (b.ValidateBoard(x, turn)) {
 			cout << "Winner: Player" << (turn == 1 ? turn : 2) << endl;
 			return 0;
 		}
