@@ -36,33 +36,28 @@ public:
 		}
 		return false;
 	}
-	bool	ValidateBoard(int x, int turn) {
-		string search = turn < 0 ? "xxxx" : "oooo";
-		if (_grid[Y].find(search) != string::npos) {
-			return true;
-		}
-		string row;
+	string	get_row(int y) {
+		return _grid[y];
+	}
+	string	get_col(int x) {
+		string col;
 		for (size_t i = 0; i < WIDTH; i++)
-			row.push_back(_grid[i][x-1]);
-		if (row.find(search) != string::npos) {
-			return true;
-		}
-		/* 斜め↘︎ */
+			col.push_back(_grid[i][x-1]);
+		return col;
+	}
+	string	get_right_diag(int x) {
 		string diag;
 		int i = Y, j = x-1;
 		for (j = x-1; j > 0 && i > 0; j--, i--)
 			;
-		// cout << "I:" << i <<  ",J:" << j << endl;
 		for (; i < HEIGHT && j < WIDTH; i++, j++) {
 			diag.push_back(_grid[i][j]);
 		}
-		if (diag.find(search) != string::npos) {
-			return true;
-		}
-
-		/* 斜め↙︎ */
-		i = Y, j = x-1;
-		diag.clear();
+		return diag;
+	}
+	string	get_left_diag(int x) {
+		int	i = Y, j = x-1;
+		string diag;
 		for (; j < WIDTH && i > 0; j++, i--)
 			;
 		for (; i < HEIGHT && j > 0; i++, j--) {
@@ -70,10 +65,28 @@ public:
 		}
 		if (i < HEIGHT)
 			diag.push_back(_grid[i][j]);
+		return diag;
+	}
+	bool	ValidateBoard(int x, int turn) {
+		string search = turn < 0 ? "xxxx" : "oooo";
+
+		string row = get_row(Y);
+		if (row.find(search) != string::npos) {
+			return true;
+		}
+		string col = get_col(x);
+		if (col.find(search) != string::npos) {
+			return true;
+		}
+		string diag = get_right_diag(x);
 		if (diag.find(search) != string::npos) {
 			return true;
 		}
-		// cout << diag;
+		diag.clear();
+		diag = get_left_diag(x);
+		if (diag.find(search) != string::npos) {
+			return true;
+		}
 		cout << endl;
 		return false;
 	}
