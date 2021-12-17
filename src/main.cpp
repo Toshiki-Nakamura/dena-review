@@ -11,7 +11,7 @@ bool	input(int &x) {
 	}
 	if ((x >= 1 && x <= 7))
 		return true;
-	cerr << "Invalid inputs\n";
+	cerr << RED << "Invalid inputs\n" << RESET;
 	return false;
 }
 
@@ -25,8 +25,12 @@ int		main()
 	while (1)
 	{
 		cout << "Player" << (turn == 1 ? turn : 2) << ": ";
-		if ((ret = input(x)))
-			b.Reflect_Input(x, turn);
+		if ((ret = input(x))) {
+			if (b.Reflect_Input(x, turn) == false) {
+				cerr << RED << "Not Empty\n" << RESET;
+				ret = false;
+			}
+		}
 		cout << b;
 		if (b.ValidateBoard(x, turn))
 		{

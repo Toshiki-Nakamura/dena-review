@@ -10,6 +10,10 @@ using namespace std;
 #define WIDTH 7
 #define HEIGHT 6
 #define Empty '.'
+#define GREEN "\033[32m"
+#define BLUE "\033[34m"
+#define RED "\033[31m"
+#define RESET "\033[0m"
 
 class Board {
 private:
@@ -18,18 +22,19 @@ private:
 public: 
 	Board() : _grid(7, string(7, Empty)) {_grid[6] = string(7, '_');}
 	~Board() {}
-	void	Reflect_Input(int x, int turn) {
+	bool	Reflect_Input(int x, int turn) {
 		x--;
 		if (_grid[0][x] != Empty)
-			return ;
+			return false;
 		for (size_t i = 0; i < HEIGHT; i++) {
 			if (_grid[i+1][x] != Empty) {
 				if (turn < 0) _grid[i][x] = 'x';
 				else  _grid[i][x] = 'o';
 				Y = i;
-				return ;
+				return true;
 			}
 		}
+		return false;
 	}
 	bool	ValidateBoard(int x, int turn) {
 		string search = turn < 0 ? "xxxx" : "oooo";
@@ -78,14 +83,19 @@ public:
 
 std::ostream& operator<<(std::ostream& stream, const Board& b) {
 	for (size_t i = 0; i < WIDTH; i++) {
-		if (!i) stream << "X ";
+		if (!i) stream << "  ";
 		stream << i+1 << " ";
 	}
 	stream << endl;
 	for (size_t i = 0; i < HEIGHT+1; i++) {
 		for (size_t j = 0; j < WIDTH; j++) {
 			if (!j) stream  << "| ";
-			stream << b[i][j] << " ";
+			if (b[i][j] == 'o')
+				stream << GREEN << b[i][j] << " " << RESET;
+			else if (b[i][j] == 'x')
+				stream << BLUE << b[i][j] << " " << RESET;
+			else
+				stream << b[i][j] << " ";
 		}
 		stream << "|" << endl;
 	}
