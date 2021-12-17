@@ -16,7 +16,7 @@ $ ./connect_four
 
 プレイヤーはどの列(1~7)にコマを置くか選択します<br>
 
-![scpt](https://user-images.githubusercontent.com/58071775/146470407-10ce14f3-ecaa-42de-89c6-35d152ca1eea.png)
+![scpt](https://user-images.githubusercontent.com/58071775/146471454-78267ab7-7b11-4bfb-8743-342d6230a1ac.png)
 
 縦か横か斜めに，先に４つ並べた方の勝ち<br>
 
